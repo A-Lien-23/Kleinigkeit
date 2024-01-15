@@ -67,20 +67,51 @@ def check_collision_circle(x1, y1, r1, x2, y2, r2):
     return distance < r1 + r2
 
 def check_collision_square(x1, y1, s1, x2, y2, s2):
-    return (
-        x1 - s1 / 2 < x2 + s2 / 2 and
-        x1 + s1 / 2 > x2 - s2 / 2 and
-        y1 - s1 / 2 < y2 + s2 / 2 and
-        y1 + s1 / 2 > y2 - s2 / 2
+    # Уравнения границ квадрата
+    left_bound = x2 - s2 / 2
+    right_bound = x2 + s2 / 2
+    top_bound = y2 - s2 / 2
+    bottom_bound = y2 + s2 / 2
+
+    # Уравнения окружности игрока
+    player_left = x1 - s1 / 2
+    player_right = x1 + s1 / 2
+    player_top = y1 - s1 / 2
+    player_bottom = y1 + s1 / 2
+
+    # Проверка пересечения границ
+    return not (
+        player_right < left_bound or
+        player_left > right_bound or
+        player_bottom < top_bound or
+        player_top > bottom_bound
     )
 
 def check_collision_triangle(x1, y1, s1, x2, y2, s2):
-    return (
-        x1 - s1 / 2 < x2 + s2 / 2 and
-        x1 + s1 / 2 > x2 - s2 / 2 and
-        y1 - s1 / 2 < y2 + s2 / 2 and
-        y1 + s1 / 2 > y2 - s2 / 2
-    )
+    # Вершины треугольника
+    vertices = [
+        (x2 - s2 / 2, y2 + s2 / 2),
+        (x2, y2 - s2 / 2),
+        (x2 + s2 / 2, y2 + s2 / 2)
+    ]
+
+    # Уравнения окружности игрока
+    player_left = x1 - s1 / 2
+    player_right = x1 + s1 / 2
+    player_top = y1 - s1 / 2
+    player_bottom = y1 + s1 / 2
+
+    # Проверка пересечения с треугольником
+    for vertex in vertices:
+        if (
+            player_right < vertex[0] or
+            player_left > vertex[0] or
+            player_bottom < vertex[1] or
+            player_top > vertex[1]
+        ):
+            return False
+
+    return True
 
 # Функция для генерации новых координат препятствий
 def generate_obstacles():
