@@ -81,21 +81,6 @@ def check_collision_square(x1, y1, r1, x2, y2, s2):
     # Проверка столкновения
     return distance_squared <= r1**2
 
-def check_collision_triangle(x1, y1, r1, x2, y2, s2):
-    # Переведем координаты центра круга в систему координат треугольника
-    circle_x = abs(x1 - x2)
-    circle_y = abs(y1 - y2)
-
-    # Найдем ближайную точку на треугольнике к центру круга
-    closest_x = max(min(circle_x, s2 / 2), -s2 / 2)
-    closest_y = max(min(circle_y, s2 / 2), -s2 / 2)
-
-    # Расстояние между центром круга и ближайшей точкой на треугольнике
-    distance_squared = (circle_x - closest_x)**2 + (circle_y - closest_y)**2
-
-    # Проверка столкновения
-    return distance_squared <= r1**2
-
 
 def check_collision_triangle(x1, y1, r1, x2, y2, s2):
     # Переводим координаты в систему координат треугольника
@@ -108,7 +93,6 @@ def check_collision_triangle(x1, y1, r1, x2, y2, s2):
 
     distance_squared = (triangle_x - closest_x)**2 + (triangle_y - closest_y)**2
     return distance_squared <= r1**2
-
 
 
 # Функция для генерации новых координат препятствий
